@@ -1,3 +1,4 @@
+import { AccoutService } from './account.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Angular-Http-In-Depth';
+  accounts;
+  constructor(private accoutService: AccoutService){
+
+  }
+
+  fetchAccount(){
+   this.accounts = this.accoutService.fetchAccount();
+  }
 }
