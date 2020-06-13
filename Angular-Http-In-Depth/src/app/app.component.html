@@ -51,16 +51,25 @@
       Fetch Data from account Service
     </h1>
   </div>
-
-  <button (click)="fetchAccount()"> Fetch Account</button>
-  <button (click)="sendDetails()"> Send Details Check Newtork Calls</button>
-  <button (click)="sendDetailsQueryParams()">Send Details Query Param Check Newtork Calls</button>
-  <button (click)="sendDetailsPostParams()">Send Details Post Param Check Newtork Calls</button>
+  <div id="container">
+    <div id="leftThing">
+      <button (click)="fetchAccount()"> Fetch Account</button></div>
+    <div id="content1">
+      <button (click)="sendDetails()"> Send Details Check Newtork Calls</button></div>
+    <div id="content2">
+      <button (click)="sendDetailsQueryParams()">Send Details Query Param Check Newtork Calls</button></div>
+    <div id="rightThing">
+      <button (click)="sendDetailsPostParams()">Send Details Post Param Check Newtork Calls</button></div>
+  </div>
   <hr />
-
   <ul *ngIf="accounts">
     <li *ngFor=" let account of accounts">{{account.Name}} - {{account.Account}}</li>
   </ul>
+
+  <br>
+  <div *ngIf="response">
+    {{response | json}}
+  </div>
 
   <p *ngIf="message != ''">
 

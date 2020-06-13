@@ -11,6 +11,7 @@ export class AppComponent {
   title = 'Angular-Http-In-Depth';
   accounts = null;
   message = '';
+  response: any;
   constructor(private accoutService: AccoutService){
 
   }
@@ -27,7 +28,9 @@ export class AppComponent {
   sendDetails(){
     this.accounts = this.accoutService.sendAccountDetails()
     .subscribe((data) => {
-      this.accounts = data;
+      console.log(data);
+      this.response = data;
+      this.accounts = data.body;
       this.message = '';
      }
      );

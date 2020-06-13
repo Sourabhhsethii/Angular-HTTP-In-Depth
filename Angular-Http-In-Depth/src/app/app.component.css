@@ -286,3 +286,22 @@
       visibility: hidden;
     }
   }
+
+  #container {
+    height: 100%;
+    width: 30%;
+    display: flex;
+  }
+  #leftThing {
+    width: 25%;
+  }
+  #content1 {
+    width: 25%;
+  }
+  #content2 {
+    width: 25%;
+  }
+
+  #rightThing {
+    width: 25%;
+  }

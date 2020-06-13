@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { flatMap, retry, retryWhen, delay } from 'rxjs/operators';
+import { of, throwError  } from 'rxjs';
+import {mergeMap} from 'rxjs/operators';
 
 @Injectable()
 export class AccoutService {
@@ -11,12 +14,15 @@ export class AccoutService {
 
     // tslint:disable-next-line: ban-types
     fetchAccount(): Observable<Object> {
-        return this.http.get('/assets/data/account.json');
+        return this.http.get('/assets/data/account.json', {
+            headers : new HttpHeaders().set('Language', 'Angular')
+        });
     }
 
     // tslint:disable-next-line: ban-types
-    sendAccountDetails(): Observable<Object> {
-        return this.http.get('/assets/data/account.json?queryparamTest=123');
+    sendAccountDetails(): Observable<HttpResponse<Object>> {
+        return this.http.get('/assets/data/account.json?queryparamTest=123',
+        { observe : 'response'});
     }
     // Get Request Handled
     // tslint:disable-next-line: ban-types
@@ -33,6 +39,21 @@ export class AccoutService {
             name: 'Sourabh'
         };
         return this.http
-            .post('/assets/data/account.json?', newAccount);
+            .post('/assets/data/account.json?', newAccount)
+            // tslint:disable-next-line: align
+            .pipe(retryWhen(err => {
+                let retires = 3;
+                return err
+                    .pipe(delay(1000))
+                    // tslint:disable-next-line: no-shadowed-variable
+                    .pipe(mergeMap((err: any) => {
+                        if ( retires-- > 0){
+                            return   of(err);
+                    // tslint:disable-next-line: align
+                } else {
+                    return throwError(err);
+                }
+            }));
+    }));
     }
 }
